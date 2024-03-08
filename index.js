@@ -6,7 +6,7 @@ const userRouter = require('./api/users/user.router')
 app.use(cors())
 app.use(express.json())
 
-app.use('/user/createuser' ,userRouter)
+app.use('/users' ,userRouter)
 // app.get('/', (req,res) => {
 //   res.send('Hello World')
 // })
