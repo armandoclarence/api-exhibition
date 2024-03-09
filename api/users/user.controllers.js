@@ -14,6 +14,7 @@ module.exports = {
     const body = req.body
     const salt = genSaltSync(10)
     body.password = hashSync(body.password, salt)
+    console.log(body)
     create(body, (error, results) => {
       if (error) {
         console.log(error)
@@ -122,8 +123,9 @@ module.exports = {
       }
       const result = compareSync(body.password, results.password)
       if (results) {
-        results.password = undefined
-        const jsontoken = sign({ result: results }, "qwe1234", {
+        console.log(results)
+        const { email,user_type_id, userId } = results
+        const jsontoken = sign({ sub: email, user_type_id,userId  }, "qwe1234", {
           expiresIn: "1h"
         })
         return res.json({
