@@ -12,19 +12,16 @@ const {sign} = require('jsonwebtoken')
 module.exports = {
   createUser: (req, res) => {
     const body = req.body
-    console.log(body)
     const salt = genSaltSync(10)
     body.password = hashSync(body.password, salt)
     create(body, (error, results) => {
       if (error) {
         console.log(error)
         res.status(500).json({
-          success: 0,
           message: 'Database connection error'
         })
       }
       return res.status(200).json({
-        success: 1,
         data: results
       })
     })
@@ -36,13 +33,11 @@ module.exports = {
         console.log(err)
         return
       }if (!results){
-        return res.json({
-          success: 0,
+        return res.status(500).json({
           message: 'Record not Found'
         })
       }
-      return res.json({
-        success:1,
+      return res.status(200).json({
         data: results
       })
     })
@@ -54,12 +49,10 @@ module.exports = {
         return
       }if (!results){
         return res.json({
-          success: 0,
           message: 'Record not Found'
         })
       }
       return res.json({
-        success:1,
         data: results
       })
     })
@@ -109,7 +102,7 @@ module.exports = {
           success: 1,
           message: 'User deleted successfully'
       });
-  });
+    });
   },
   login: (req, res) => {
     const body = req.body
@@ -122,8 +115,8 @@ module.exports = {
           data: "Invalid email or password"
         })  
       }
-      console.log(results)
-      if (results) {
+      const result = compareSync(body.password, results.password)
+      if (result) {
         const { email,user_type_id, userId } = results
         const jsontoken = sign({ sub: email, user_type_id , userId  }, "qwe1234", {
           expiresIn: "1h"

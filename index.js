@@ -3,10 +3,12 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const userRouter = require('./api/users/user.router')
+const stallRouter = require('./api/stall/stall.router')
 app.use(cors())
 app.use(express.json())
 
 app.use('/users' ,userRouter)
+app.use('/stall' ,stallRouter)
 // app.get('/', (req,res) => {
 //   res.send('Hello World')
 // })
