@@ -34,7 +34,7 @@ module.exports = {
         return
       }if (!results){
         return res.status(500).json({
-          message: 'Record not Found'
+          message: 'User not Found'
         })
       }
       return res.status(200).json({
@@ -49,7 +49,7 @@ module.exports = {
         return
       }if (!results){
         return res.json({
-          message: 'Record not Found'
+          message: 'Users not Found'
         })
       }
       return res.json({
@@ -65,19 +65,16 @@ module.exports = {
       if (err) {
         console.log(err);
         return res.status(500).json({
-          success: 0,
           message: 'Database error',
         });
       }
       if (results && results.affectedRows === 0) {
         return res.status(404).json({
-          success: 0,
           message: 'Record not found',
         });
       }
   
       return res.status(200).json({
-        success: 1,
         message: 'Record updated successfully',
       });
     });
@@ -86,32 +83,29 @@ module.exports = {
     const data = req.body
     deleteUser(data, (err, results) => {
       if (err) {
-          console.log(err);
-          return res.status(500).json({
-              success: 0,
-              message: 'Error deleting user'
-          });
+        console.log(err);
+        return res.status(500).json({
+            message: 'Error deleting user'
+        });
       }
       if (!results) {
-          return res.status(404).json({
-              success: 0,
-              message: 'User not found'
-          });
+        return res.status(404).json({
+          message: 'User not found'
+        });
       }
       return res.json({
-          success: 1,
           message: 'User deleted successfully'
       });
     });
   },
   login: (req, res) => {
     const body = req.body
-    console.log(body)
+    console.log(body.email)
     getUserByEmail(body.email, (err, results) => {
       if (err) console.log(err)
+      console.log(results)
       if (!results) {
         return res.json({
-          success: 0,
           data: "Invalid email or password"
         })  
       }
@@ -122,13 +116,11 @@ module.exports = {
           expiresIn: "1h"
         })
         return res.json({
-          success: 1,
           message: "login successfully",
           token: jsontoken
         })
       } else {
         return res.json({
-          success: 0,
           data: "Invalid email or password"
         })
       }

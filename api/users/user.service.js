@@ -14,7 +14,8 @@ module.exports = {
         data.password,
         data.user_type_id
       ],
-      (error, results, fields) => {
+      (error, results) => {
+        console.log(results)
         if(error) callBack(error)
         return callBack(null, results)
       }
@@ -24,7 +25,7 @@ module.exports = {
     pool.query(
       `SELECT * FROM registration`,
       [],
-      (error, results, fields) => {
+      (error, results) => {
         if(error) callBack(error)
         return callBack(null, results)
       }
@@ -34,7 +35,7 @@ module.exports = {
     pool.query(
       `SELECT * FROM registration where userId = ?`,
       [id],
-      (error, results, fields) => {
+      (error, results) => {
         if(error) callBack(error)
         return callBack(null, results[0])
       }
@@ -84,17 +85,18 @@ module.exports = {
     pool.query(
       `DELETE FROM registration where userId = ?`,
       [data.userId],
-      (error, results, fields) => {
+      (error, results) => {
         if(error) callBack(error)
         return callBack(null, results.affectedRows)
       }
     )
   },
   getUserByEmail: (email, callBack) => {
+    console.log(email)
     pool.query(
       `SELECT * FROM registration where email = ?`,
       [email],
-      (error, results, fields) => {
+      (error, results) => {
         if(error) callBack(error)
         return callBack(null, results[0])
       }

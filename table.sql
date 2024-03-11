@@ -16,4 +16,3 @@ CREATE TABLE stalls (
   videoUrl VARCHAR(255),
   brochureUrl VARCHAR(255),
 );
-
