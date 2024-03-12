@@ -101,5 +101,19 @@ module.exports = {
         return callBack(null, results[0])
       }
     )
+  },
+  updateUserByEmail: (email, callBack) => {
+    // Execute an update query to update the user's information
+    pool.query(
+      `UPDATE registration SET user_status = ? WHERE email = ?`,
+      ['AU', email],
+      (error, results) => {
+        if (error) {
+          callBack(error);
+        } else {
+          callBack(null, results);
+        }
+      }
+    );
   }
 }

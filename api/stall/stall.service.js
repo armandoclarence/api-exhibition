@@ -2,7 +2,6 @@ const pool = require('../../db')
 
 module.exports = {
   create: (data, callBack) => {
-    console.log(data)
     pool.query(
       `SELECT * FROM registration WHERE userId = ?`,
       [
@@ -12,7 +11,7 @@ module.exports = {
         if(error) {
           return callBack(error)
         }
-        if(results.length === 0 && results[0].user_status === 'AU'){
+        if(results[0].user_status === 'AU'){
           pool.query(
             `INSERT into stall(stallName, stallDescription, photoUrl, videoUrl, brochureUrl,userId)
                         VALUES(?,?,?,?,?,?)`,
